@@ -58,7 +58,16 @@ welcomeButton.addEventListener("click", function () {
 buttonContainer.addEventListener("click", function (event) {
 	var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
 
-	var ivalue = event.target.dataset.ivalue;
-	console.log(ivalue);
-	//	if clickedOntext == Questions[data--ivalue].TA)[];
+	var ivalue = event.target.dataset.ivalue; //records the ivalue (question number, basically)
+
+	if (clickedOnText === Questions[ivalue].TA) {
+		//compares the user choice to the TA (True Answer) found at the ivalueith index of the questions array
+		buttonContainer.classList.add("hidden"); //just to make something happen
+	}
+	// if (clickedOntext == Questions[ivalue].TA){
+	//   console.log "CORRECT!";
+	// }
+	// else if (clickedOntext != questions[ivalue].TA{
+	//   console.log "WRONG!";
+	// }
 });
