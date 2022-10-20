@@ -39,7 +39,7 @@ for (let I = 0; I < quantityOfQuestions; I++) {
 	];
 	//Single quizquestion maker. This section will repeatedly make a div with 4 buttons
 	var buttonDiv = document.createElement("div"); //makes a question div
-	document.body.appendChild(buttonDiv); //I want to append this to "buttonContainer"
+	buttonContainer.appendChild(buttonDiv); //appends buttonDiv to buttonContainer
 	buttonDiv.innerHTML = Questions[I].Q; // prints the relevant quiz question
 	for (let i = 0; i < buttonsPer; i++) {
 		//puts multiple choice answers on buttons
