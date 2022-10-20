@@ -44,20 +44,22 @@ for (let I = 0; I < quantityOfQuestions; I++) {
 	for (let i = 0; i < buttonsPer; i++) {
 		//puts multiple choice answers on buttons
 		var ghostButton = document.createElement("button"); //makes a button
-		ghostButton.innerHTML = Questions[I].Choices[i]; //puts a choice answer on
+		ghostButton.innerHTML = Questions[I].Choices[i]; // grabs the right text from the questions array
 		buttonDiv.appendChild(ghostButton); //appends it to div above , which is appended to the body
 	}
 }
 
 welcomeButton.addEventListener("click", function () {
-	//reveal the hidden buttons
+	//reveal the hidden buttons and hide the Welcome div when click received by removing hidden and adding hidden
 	buttonContainer.classList.remove("hidden");
 	welcomeDiv.classList.add("hidden");
-	//hide the welcome div
 });
 
-// buttonContainer.addEventListener("click", function (event) {
-// 	var clickedOn = event.target;
+buttonContainer.addEventListener("click", function (event) {
+	var clickedOntext = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
+	//if clickedOntext === //The text in the TA (true answer) space of the array at the index corresponding to the location of the event target in the array
+	// is it possible to somehow reach into the event and get information about the array where the button is getting its text from?
+});
 
 // if (clickedOn.matches("button")) {
 //get the value of the button's data-veracity attribute (also give each button a "veracity" attribute)
