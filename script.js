@@ -58,10 +58,7 @@ welcomeButton.addEventListener("click", function () {
 buttonContainer.addEventListener("click", function (event) {
 	var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
 
-	//var iValue = $(event.target).dataset.ivalue();
-	//var iValue = event.target.dataset.ivalue();
-	//var iValue = event.target.getAttribute("data-ivalue");
-	var iValue = event.target.dataset.ivalue;
-	console.log(iValue);
+	var ivalue = event.target.dataset.ivalue;
+	console.log(ivalue);
 	//	if clickedOntext == Questions[data--ivalue].TA)[];
 });
