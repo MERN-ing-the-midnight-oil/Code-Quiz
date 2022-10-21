@@ -38,7 +38,7 @@ welcomeButton.addEventListener("click", function () {
 	];
 	var QuestionIndex = 0; //The question the user is on. Update this Index after a click on text exists. QUESTION INDEX <-------------------------------!
 	//THIS FUNCTION DISPLAYS ONE QUESTION AND ITS POSSIBLE ANSWERS, AND THEN ADVANCES TO THE NEXT QUESTION UPON AN ANSWER CLICK
-
+	console.log(QuestionIndex);
 	//check to see if Questions[QuestionIndex] has a value or not.
 	if (QuestionIndex > Questions.length) {
 		console.log("Time to end the quiz");
@@ -54,9 +54,9 @@ welcomeButton.addEventListener("click", function () {
 				ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
 				//ghostButton.setAttribute("ivalue",QuestionIndex) would have been another way to do it.
 				buttonDiv.appendChild(ghostButton); //appends each button to the DOM
-				console.log(ghostButton);
 			}
 			QuestionIndex = QuestionIndex + 1;
+			console.log(QuestionIndex);
 		}
 	}
 
