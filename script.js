@@ -1,59 +1,60 @@
 // hooks into the DOM
 var buttonContainer = document.querySelector(".buttonContainer");
 var welcomeButton = document.querySelector("#welcomeButton");
-var welcomeDiv = document.querySelector("#Welcome");
-var question_1Prompt = document.querySelector("#question_1");
-
-var buttonsPer = 4; //The number of buttons per question
-var quantityOfQuestions = 4; //The number of questions in this quiz
-//Quiz Maker. This will make a quiz' worth of questions with buttons
-for (let I = 0; I < quantityOfQuestions; I++) {
-	var Questions = [
-		{
-			Q: "What is Alaska's Capital City?",
-			Choices: ["Anchorage", "Fairbanks", "Olympia", "Juneau"],
-			TA: "Juneau",
-		},
-		{
-			Q: "How many roads must a man walk down, before you call him a man?",
-			Choices: ["Forty-two", "Sixteen", "Seventy-Seven", "Blowing in the Wind"],
-			TA: "Blowing in the Wind",
-		},
-		{
-			Q: "How will the world end?",
-			Choices: ["Fire", "Ice", "A fizzle", "A bang"],
-			TA: "Fire",
-		},
-		{
-			Q: "Why did the chicken cross the road?",
-			Choices: [
-				"Better View",
-				"Sour Grapes",
-				"To race the Hare",
-				"Greener Grass",
-			],
-			TA: "Sour Grapes",
-		},
-	];
-	//Single quizquestion maker. This section will repeatedly make a div with 4 buttons
-	var buttonDiv = document.createElement("div"); //makes a question div
-	buttonContainer.appendChild(buttonDiv); //appends buttonDiv to buttonContainer
-	buttonDiv.innerHTML = Questions[I].Q; // prints the relevant quiz question text onto each button
-	for (let i = 0; i < buttonsPer; i++) {
-		//prints the relevant quiz multiple choice answer text onto each button
-		var ghostButton = document.createElement("button"); //makes a button
-		ghostButton.innerHTML = Questions[I].Choices[i]; // grabs the right text from the questions array
-		ghostButton.dataset.ivalue = I; //gives the button a data attribute of iValue equal to the outer loop variable (so, essentially the question number)
-		buttonDiv.appendChild(ghostButton); //appends it to div above , which is appended to the body
-		console.log(ghostButton);
-	}
-}
+var welcomeDiv = document.querySelector("#welcome");
+//var question_1Prompt = document.querySelector("#question_1");
 
 welcomeButton.addEventListener("click", function () {
-	//reveal the hidden buttons and hide the Welcome div when click received by removing hidden and adding hidden
+	//reveals the button container and hides the Welcome div when a click is received 
 	buttonContainer.classList.remove("hidden");
 	welcomeDiv.classList.add("hidden");
-});
+
+var Questions = [
+	{
+		Q: "What is Alaska's Capital City?",
+		Choices: ["Anchorage", "Fairbanks", "Olympia", "Juneau"],
+		TA: "Juneau",
+	},
+	{
+		Q: "How many roads must a man walk down, before you call him a man?",
+		Choices: ["Forty-two", "Sixteen", "Seventy-Seven", "Blowing in the Wind"],
+		TA: "Blowing in the Wind",
+	},
+	{
+		Q: "How will the world end?",
+		Choices: ["Fire", "Ice", "A fizzle", "A bang"],
+		TA: "Fire",
+	},
+	{
+		Q: "Why did the chicken cross the road?",
+		Choices: [
+			"Better View",
+			"Sour Grapes",
+			"To race the Hare",
+			"Greener Grass",
+		],
+		TA: "Sour Grapes",
+	},
+];
+	var QuestionIndex = 0; //The question the user is on. Update this Index after a click on text exists. QUESTION INDEX <-------------------------------!
+//THIS FUNCTION DISPLAYS ONE QUESTION AND ITS POSSIBLE ANSWERS, AND THEN ADVANCES TO THE NEXT QUESTION UPON AN ANSWER CLICK
+function makeQuestion() {
+	var currentQuestion = Questions[QuestionIndex];//currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
+	var buttonDiv = document.createElement("div"); //makes a button div in the Dom
+	buttonContainer.appendChild(buttonDiv); 
+	buttonDiv.innerHTML = Questions[QuestionIndex].Q; 
+	for (let i = 0; i < currentQuestion.Choices.length; i++) {
+		var ghostButton = document.createElement("button"); //makes buttons for the multiple choice answers
+		ghostButton.innerHTML = Questions[QuestionIndex].Choices[i]; // grabs each correct multiple choice text from the questions array
+		ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
+		//ghostButton.setAttribute("ivalue",QuestionIndex) would have been another way to do it.
+		buttonDiv.appendChild(ghostButton); //appends each button to the DOM
+		console.log(ghostButton);
+	}
+	QuestionIndex = QuestionIndex +1  //The last thing makeQuestion does is update the question Index
+}
+
+makeQuestion();
 
 buttonContainer.addEventListener("click", function (event) {
 	var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
@@ -61,13 +62,16 @@ buttonContainer.addEventListener("click", function (event) {
 	var ivalue = event.target.dataset.ivalue; //records the ivalue (question number, basically)
 
 	if (clickedOnText === Questions[ivalue].TA) {
-		//compares the user choice to the TA (True Answer) found at the ivalueith index of the questions array
-		buttonContainer.classList.add("hidden"); //just to make something happen
+		//Great Job!
+		//Hide old question
+		makeQuestion();
+
+	} else {
+		//try again!
+		//subtract some time from the timer
 	}
-	// if (clickedOntext == Questions[ivalue].TA){
-	//   console.log "CORRECT!";
-	// }
-	// else if (clickedOntext != questions[ivalue].TA{
-	//   console.log "WRONG!";
-	// }
+
+	//from class about removing a list item (removing the parent and itself)
+	//student event delegation  handle remove item
+	//$(event.target).parent().remove();
 });

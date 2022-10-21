@@ -9,21 +9,24 @@
 
   </head>
   <body>
-    <div id="Welcome">
+    <div id=welcome class="welcome">
       <h1>Welcome to my quiz</h1>
       <button id="welcomeButton" type="button">
         Click here to start the quiz
       </button>
     </div>
-    <div id= buttonContainer class="buttonContainer hidden">
-      <!-- write "hidden" above to hide -->
+    <div id= buttonContainer class="buttonContainer ">
+      <p>This is the button Container</p><!-- write "hidden" above to hide -->
     </div>
 
-<div class="Response"> 
-
+<div class="Correct" hidden> 
 <p>Correct, you got it right!</p>
-<p>Incorrect, sorry, try again</p>
 </div>
+
+<div class="Incorrect" hidden> 
+  <p>Sorry, that's not correct</p>
+</div> 
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="script.js"></script>
   </body>
