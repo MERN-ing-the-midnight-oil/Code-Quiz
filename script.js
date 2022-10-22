@@ -56,7 +56,7 @@ welcomeButton.addEventListener("click", function () {
 
 		QuestionIndex = QuestionIndex + 1;
 		console.log(QuestionIndex);
-		if (QuestionIndex > Questions.length) {
+		if (QuestionIndex == Questions.length) {
 			console.log("Time to end the quiz");
 		}
 	}
