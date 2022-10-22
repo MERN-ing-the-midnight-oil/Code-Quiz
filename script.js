@@ -54,11 +54,10 @@ welcomeButton.addEventListener("click", function () {
 			buttonDiv.appendChild(ghostButton); //appends each button to the DOM
 		}
 
+		QuestionIndex = QuestionIndex + 1;
+		console.log(QuestionIndex);
 		if (QuestionIndex > Questions.length) {
 			console.log("Time to end the quiz");
-		} else {
-			QuestionIndex = QuestionIndex + 1;
-			console.log(QuestionIndex);
 		}
 	}
 
@@ -74,6 +73,7 @@ welcomeButton.addEventListener("click", function () {
 			makeQuestion();
 		} else {
 			console.log("sorry, try again");
+			makeQuestion();
 			//try again!
 			//subtract some time from the timer
 		}
