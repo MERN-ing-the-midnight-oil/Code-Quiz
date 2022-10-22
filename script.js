@@ -10,7 +10,7 @@ welcomeButton.addEventListener("click", function () {
 	//buttonContainer.classList.add("hidden");
 	welcomeDiv.classList.add("hidden");
 
-	//THIS IS MY TIMER-------------------------------------------------
+	//THIS IS THE TIMER-------------------------------------------------
 	var secondsLeft = 5;
 	function timer() {
 		var tick = setInterval(function () //setInterval is a built in time handler
@@ -22,6 +22,7 @@ welcomeButton.addEventListener("click", function () {
 			}
 		}, 1000); //this number is the millisecond interval set by setInterval
 	}
+	timer();
 	//----------------------------------------------------------------------
 
 	var Questions = [
