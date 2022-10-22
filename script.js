@@ -40,21 +40,23 @@ welcomeButton.addEventListener("click", function () {
 	//THIS FUNCTION DISPLAYS ONE QUESTION AND ITS POSSIBLE ANSWERS, AND THEN ADVANCES TO THE NEXT QUESTION UPON AN ANSWER CLICK
 	console.log(QuestionIndex);
 	//check to see if Questions[QuestionIndex] has a value or not.
-	if (QuestionIndex > Questions.length) {
-		console.log("Time to end the quiz");
-	} else {
-		function makeQuestion() {
-			var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
-			var buttonDiv = document.createElement("div"); //makes a button div in the Dom
-			buttonContainer.appendChild(buttonDiv);
-			buttonDiv.innerHTML = Questions[QuestionIndex].Q;
-			for (let i = 0; i < currentQuestion.Choices.length; i++) {
-				var ghostButton = document.createElement("button"); //makes buttons for the multiple choice answers
-				ghostButton.innerHTML = Questions[QuestionIndex].Choices[i]; // grabs each correct multiple choice text from the questions array
-				ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
-				//ghostButton.setAttribute("ivalue",QuestionIndex) would have been another way to do it.
-				buttonDiv.appendChild(ghostButton); //appends each button to the DOM
-			}
+
+	function makeQuestion() {
+		var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
+		var buttonDiv = document.createElement("div"); //makes a button div in the Dom
+		buttonContainer.appendChild(buttonDiv);
+		buttonDiv.innerHTML = Questions[QuestionIndex].Q;
+		for (let i = 0; i < currentQuestion.Choices.length; i++) {
+			var ghostButton = document.createElement("button"); //makes buttons for the multiple choice answers
+			ghostButton.innerHTML = Questions[QuestionIndex].Choices[i]; // grabs each correct multiple choice text from the questions array
+			ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
+			//ghostButton.setAttribute("ivalue",QuestionIndex) would have been another way to do it.
+			buttonDiv.appendChild(ghostButton); //appends each button to the DOM
+		}
+
+		if (QuestionIndex > Questions.length) {
+			console.log("Time to end the quiz");
+		} else {
 			QuestionIndex = QuestionIndex + 1;
 			console.log(QuestionIndex);
 		}
