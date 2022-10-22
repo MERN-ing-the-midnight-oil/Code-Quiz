@@ -2,12 +2,27 @@
 var buttonContainer = document.querySelector(".buttonContainer");
 var welcomeButton = document.querySelector("#welcomeButton");
 var welcomeDiv = document.querySelector("#welcome");
-//var question_1Prompt = document.querySelector("#question_1");
+var timerEl = document.querySelector(".timer");
 
 welcomeButton.addEventListener("click", function () {
 	//reveals the button container and hides the Welcome div when a click is received
 	buttonContainer.classList.remove("hidden");
+	//buttonContainer.classList.add("hidden");
 	welcomeDiv.classList.add("hidden");
+
+	//THIS IS MY TIMER-------------------------------------------------
+	var secondsLeft = 5;
+	function timer() {
+		var tick = setInterval(function () //setInterval is a built in time handler
+		{
+			secondsLeft--;
+			timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
+			if (secondsLeft === 0) {
+				console.log("timer is out of time");
+			}
+		}, 1000); //this number is the millisecond interval set by setInterval
+	}
+	//----------------------------------------------------------------------
 
 	var Questions = [
 		{
@@ -56,8 +71,9 @@ welcomeButton.addEventListener("click", function () {
 
 		QuestionIndex = QuestionIndex + 1;
 		console.log(QuestionIndex);
-		if (QuestionIndex == Questions.length) {
-			console.log("Time to end the quiz");
+		if (QuestionIndex == Questions.length + 1) {
+			buttonContainer.classList.add("hidden");
+			console.log("HEY!!, time to end the quiz");
 		}
 	}
 
