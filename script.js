@@ -52,6 +52,7 @@ function endGame() {
 	buttonContainer.classList.add("hidden");
 	gameOver.classList.remove("hidden");
 	timerEl.classList.add("hidden");
+
 	//The following takes the end time and user initials , combines them into a small array, and adds that array to the gameScores array.
 	var endTime = 0;
 	endTime = secondsLeft;
@@ -71,7 +72,7 @@ function timer() {
 		secondsLeft--;
 		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
 		if (secondsLeft < 1) {
-			clearInterval(tick);
+			//clearInterval(tick);
 			endGame(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ENDS THE GAME WHEN TIMER RUNS OUT
 		}
 	}, 1000);
