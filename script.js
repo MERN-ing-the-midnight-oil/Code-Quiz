@@ -10,7 +10,7 @@ var wrong = document.querySelector(".wrong");
 
 //STORED SCORES SCORES SCORES SCORES
 var storedScores = JSON.parse(localStorage.getItem("scoresArray")); //get the stored scores array from local storage
-var gameScores = ["D.Dummy", 666];
+var gameScores = ["asdf", "123"];
 var endArray = [];
 if (storedScores !== null) {
 	gameScores = storedScores;
@@ -58,10 +58,10 @@ function endGame() {
 	var endInitials = window.prompt(
 		"Please enter your initials for the score board!"
 	);
-	endArray.push(endInitials);
+	endArray.push(endInitials); //here I"m taking the users initials and end time and pairing them in a small array called gameScores
 	endArray.push(endTime);
-	gameScores.push(endArray);
-	//The following takes the gameScores array and stores in in local storage
+	gameScores.push(endArray); //<gameScores is supposed to be an array, why does JS want to treat it like a function?
+	//The following takes the small  gameScores array and stores in in local storage
 	localStorage.setItem("scoresArray", JSON.stringify(gameScores));
 }
 
