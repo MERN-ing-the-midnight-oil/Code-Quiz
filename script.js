@@ -6,7 +6,7 @@ var timerEl = document.querySelector(".timer");
 var gameOver = document.querySelector(".gameOver");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
-var secondsLeft = 20; //The number of seconds the timer starts with
+var secondsLeft = 5; //The number of seconds the timer starts with
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
 var Questions = [
@@ -70,6 +70,7 @@ function gameOver() {
 	buttonContainer.classList.add("hidden");
 	gameOver.classList.remove("hidden");
 	//Save the score to local storage
+	clearInterval(tick); //clears the timer, probably?
 }
 
 //THIS FUNCTION WAITS FOR A CLICK TO START THE QUIZ
@@ -98,13 +99,11 @@ welcomeButton.addEventListener("click", function () {
 		}
 
 		QuestionIndex = QuestionIndex + 1;
-		if (QuestionIndex < Questions.length) {
-			gameOver(); // this line doesn't seem to be working at all for some darn reason!!!!
 
-			buttonContainer.classList.add("hidden"); // this only works with +1 on line 74!
-			//get the score
-			//clear the timer
-			gameOver(); // this line doesn't seem to be working at all for some darn reason!!!!
+		if (QuestionIndex < Questions.length) {
+			makeQuestion();
+		} else {
+			gameOver();
 		}
 	});
 }); //<--end of the event listener/handler
