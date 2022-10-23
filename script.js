@@ -6,7 +6,7 @@ var timerEl = document.querySelector(".timer");
 var gameOver = document.querySelector(".gameOver");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
-var secondsLeft = 5; //The number of seconds the timer starts with
+var secondsLeft = 50; //The number of seconds the timer starts with
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
 var Questions = [
@@ -38,15 +38,22 @@ var Questions = [
 ];
 
 //THE TIMER FUNCTION------------------------------------------------------
+function endGame() {
+	console.log("GAME OVER GAME OVER GAME OVER GAME OVER");
+	buttonContainer.classList.add("hidden");
+	gameOver.classList.remove("hidden");
+	//Save the score to local storage
+	clearInterval(tick); //clears the timer, probably?
+}
 
 function timer() {
 	var tick = setInterval(function () //setInterval is a built in time handler
 	{
 		secondsLeft--;
 		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
-		if (secondsLeft === 0) {
+		if (secondsLeft < 1) {
 			clearInterval(tick);
-			gameOver();
+			endGame();
 		}
 	}, 1000); //this number is the millisecond interval set by setInterval
 }
@@ -66,12 +73,6 @@ function makeQuestion() {
 	}
 }
 //THIS FUNCTION ENDS THE QUIZ WITH A DISPLAY AND WILL SOMEDAY SOON SAVE THE SCORE
-function gameOver() {
-	buttonContainer.classList.add("hidden");
-	gameOver.classList.remove("hidden");
-	//Save the score to local storage
-	clearInterval(tick); //clears the timer, probably?
-}
 
 //THIS FUNCTION WAITS FOR A CLICK TO START THE QUIZ
 welcomeButton.addEventListener("click", function () {
@@ -103,7 +104,7 @@ welcomeButton.addEventListener("click", function () {
 		if (QuestionIndex < Questions.length) {
 			makeQuestion();
 		} else {
-			gameOver();
+			endGame();
 		}
 	});
 }); //<--end of the event listener/handler
