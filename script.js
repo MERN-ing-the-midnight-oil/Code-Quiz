@@ -3,9 +3,12 @@ var buttonContainer = document.querySelector(".buttonContainer");
 var welcomeButton = document.querySelector("#welcomeButton");
 var welcomeDiv = document.querySelector("#welcome");
 var timerEl = document.querySelector(".timer");
-var gameOver = document.querySelector(".gamOver");
+var gameOver = document.querySelector(".gameOver");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
+var secondsLeft = 20; //The number of seconds the timer starts with
+var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
+
 var Questions = [
 	{
 		Q: "What is Alaska's Capital City?",
@@ -34,85 +37,82 @@ var Questions = [
 	},
 ];
 
-var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
+//THE TIMER FUNCTION------------------------------------------------------
 
+function timer() {
+	var tick = setInterval(function () //setInterval is a built in time handler
+	{
+		secondsLeft--;
+		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
+		if (secondsLeft === 0) {
+			clearInterval(tick);
+			gameOver();
+		}
+	}, 1000); //this number is the millisecond interval set by setInterval
+}
+//-------------------------------------------------------------------------------------
+
+function makeQuestion() {
+	var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
+	var buttonDiv = document.createElement("div"); //makes a button div in the Dom
+	buttonContainer.appendChild(buttonDiv);
+	buttonDiv.innerHTML = Questions[QuestionIndex].Q;
+	for (let i = 0; i < currentQuestion.Choices.length; i++) {
+		var ghostButton = document.createElement("button"); //makes buttons for the multiple choice answers
+		ghostButton.innerHTML = Questions[QuestionIndex].Choices[i]; // grabs each correct multiple choice text from the questions array
+		ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
+		//ghostButton.setAttribute("ivalue",QuestionIndex) would have been another way to do it.
+		buttonDiv.appendChild(ghostButton); //appends each button to the DOM
+	}
+}
+//THIS FUNCTION ENDS THE QUIZ WITH A DISPLAY AND WILL SOMEDAY SOON SAVE THE SCORE
+function gameOver() {
+	buttonContainer.classList.add("hidden");
+	gameOver.classList.remove("hidden");
+	//Save the score to local storage
+}
+
+//THIS FUNCTION WAITS FOR A CLICK TO START THE QUIZ
 welcomeButton.addEventListener("click", function () {
 	//reveals the button container and hides the Welcome div when a click is received
 	buttonContainer.classList.remove("hidden");
 	//buttonContainer.classList.add("hidden");
 	welcomeDiv.classList.add("hidden");
 
-	//THIS IS THE TIMER   \----------------------------------------------
-	var secondsLeft = 20;
-	function timer() {
-		var tick = setInterval(function () //setInterval is a built in time handler
-		{
-			secondsLeft--;
-			timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
-			if (secondsLeft === 0) {
-				console.log("timer is out of time");
-				clearInterval(tick);
-				gameOver();
-			}
-		}, 1000); //this number is the millisecond interval set by setInterval
-	}
-	timer();
-	//-------------------------------------------------------------------------------------
-	function makeQuestion() {
-		var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
-		var buttonDiv = document.createElement("div"); //makes a button div in the Dom
-		buttonContainer.appendChild(buttonDiv);
-		buttonDiv.innerHTML = Questions[QuestionIndex].Q;
-		for (let i = 0; i < currentQuestion.Choices.length; i++) {
-			var ghostButton = document.createElement("button"); //makes buttons for the multiple choice answers
-			ghostButton.innerHTML = Questions[QuestionIndex].Choices[i]; // grabs each correct multiple choice text from the questions array
-			ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
-			//ghostButton.setAttribute("ivalue",QuestionIndex) would have been another way to do it.
-			buttonDiv.appendChild(ghostButton); //appends each button to the DOM
+	timer(); // CALLS THE TIMER FUNCTION
+
+	makeQuestion(); // CALLS THE MAKE QUESTION FUNCTION, PUTTING QUESTION NUMBER ONE IN BUTTONS IN THE DOM AND WAITING FOR A CLICK
+
+	//THIS EVENT HANDLER WAITS FOR A CLICK ON A MULTIPLE CHOICE BUTTON CREATED IN THE PREVIOUS STEP AND CHECKS IF THE USER CHOICE IS CORRECT, AND DOES STUFF BASED ON THAT
+	buttonContainer.addEventListener("click", function (event) {
+		var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
+		var ivalue = event.target.dataset.ivalue; //records the ivalue (question number, basically)
+		if (clickedOnText === Questions[ivalue].TA) {
+			//compares clicked on text to the correct answer
+			correct.classList.remove("hidden"); //reveal the message in "correct" class
+			wrong.classList.add("hidden"); //hide the "wrong" answer if it isn't already hidden
+		} else {
+			wrong.classList.remove("hidden"); //reveals the "wrong" class message text
+			correct.classList.add("hidden"); // hides the "correct!" message text if it isn't already hidden
+			secondsLeft = secondsLeft - 10; //
 		}
 
 		QuestionIndex = QuestionIndex + 1;
-		console.log(QuestionIndex);
-		if (QuestionIndex == Questions.length) {
-			//the last question does't get asked, but using Questions.length + 1  doesn't work  either because , there is no such element in the array
-			buttonContainer.classList.add("hidden");
+		if (QuestionIndex < Questions.length) {
+			gameOver(); // this line doesn't seem to be working at all for some darn reason!!!!
+
+			buttonContainer.classList.add("hidden"); // this only works with +1 on line 74!
 			//get the score
 			//clear the timer
-			gameOver();
+			gameOver(); // this line doesn't seem to be working at all for some darn reason!!!!
 		}
-	}
-
-	makeQuestion();
-
-	//Event and event response------------------------
-	buttonContainer.addEventListener("click", function (event) {
-		var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
-
-		var ivalue = event.target.dataset.ivalue; //records the ivalue (question number, basically)
-
-		if (clickedOnText === Questions[ivalue].TA) {
-			correct.classList.remove("hidden");
-			//			wrong.classList.add("hidden");
-			makeQuestion();
-		} else {
-			wrong.classList.remove("hidden");
-			correct.classList.add("hidden");
-			makeQuestion();
-
-			//subtract some time from the timer
-		}
-
-		//from class about removing a list item (removing the parent and itself)
-		//student event delegation  handle remove item
-		//$(event.target).parent().remove();
 	});
-});
+}); //<--end of the event listener/handler
 
-function gameOver() {
-	buttonContainer.classList.add("hidden");
-	gameOver.classList.remove("hidden");
-	//Save the score to local storage
-}
+//from class about removing a list item (removing the parent and itself)
+//student event delegation  handle remove item
+//$(event.target).parent().remove();
+
 //----------------------------------------------------------------------
 //SAVING HIGH SCORES TO LOCAL STORAGE
 
