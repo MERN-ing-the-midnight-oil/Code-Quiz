@@ -6,6 +6,17 @@ var timerEl = document.querySelector(".timer");
 var gameOver = document.querySelector(".gameOver");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
+//var scores =document.querySelector(".scores");//not sure if I need this yet or at all
+
+//STORED SCORES SCORES SCORES SCORES
+var storedScores = JSON.parse(localStorage.getItem("scoresArray")); //get the stored scores array from local storage
+var gameScores = ["D.Dummy", 666];
+var endArray = [];
+if (storedScores !== null) {
+	gameScores = storedScores;
+}
+console.log("the Game Score is starting with " + gameScores);
+
 var secondsLeft = 50; //The number of seconds the timer starts with
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
@@ -37,13 +48,21 @@ var Questions = [
 	},
 ];
 
-//THE TIMER FUNCTION------------------------------------------------------
 function endGame() {
-	console.log("GAME OVER GAME OVER GAME OVER GAME OVER");
 	buttonContainer.classList.add("hidden");
 	gameOver.classList.remove("hidden");
-	//Save the score to local storage
-	clearInterval(tick); //clears the timer, probably?
+	timerEl.classList.add("hidden");
+	//The following takes the end time and user initials , combines them into a small array, and adds that array to the gameScores array.
+	var endTime = 0;
+	endTime = secondsLeft;
+	var endInitials = window.prompt(
+		"Please enter your initials for the score board!"
+	);
+	endArray.push(endInitials);
+	endArray.push(endTime);
+	gameScores.push(endArray);
+	//The following takes the gameScores array and stores in in local storage
+	localStorage.setItem("scoresArray", JSON.stringify(gameScores));
 }
 
 function timer() {
@@ -53,11 +72,10 @@ function timer() {
 		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
 		if (secondsLeft < 1) {
 			clearInterval(tick);
-			endGame();
+			endGame(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ENDS THE GAME WHEN TIMER RUNS OUT
 		}
-	}, 1000); //this number is the millisecond interval set by setInterval
+	}, 1000);
 }
-//-------------------------------------------------------------------------------------
 
 function makeQuestion() {
 	var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
@@ -104,24 +122,19 @@ welcomeButton.addEventListener("click", function () {
 		if (QuestionIndex < Questions.length) {
 			makeQuestion();
 		} else {
-			endGame();
+			endGame(); //ENDS THE GAME WHEN ALL QUESTIONS HAVE BEEN ANSWERED
+			clearInterval(tick); //this was my unsuccessful attempt to keep the timer from continuing runnign down to zero and ending the game... agian.
 		}
 	});
 }); //<--end of the event listener/handler
 
+//Maybe usefull stuff
 //from class about removing a list item (removing the parent and itself)
 //student event delegation  handle remove item
 //$(event.target).parent().remove();
 
 //----------------------------------------------------------------------
-//SAVING HIGH SCORES TO LOCAL STORAGE
 
-//JSON.parse(window.localStorage.getItem("highscores")) and
-//append the new score to the array
-// send your appended array to local storage
-//window.localStorage.setItem("highscores", JSON.stringify(highscores))
-
-//Have a link to the high scores
 //----------------------------------------------------------------------------------
 //*GIVEN I am taking a code quiz
 //WHEN I click the start button
