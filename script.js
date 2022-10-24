@@ -18,7 +18,7 @@ if (storedScores !== null) {
 }
 console.log("the Game Score is starting with " + gameScores);
 
-var secondsLeft = 100; //The number of seconds the timer starts with
+var secondsLeft = 10; //The number of seconds the timer starts with
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
 var Questions = [
