@@ -6,8 +6,9 @@ var timerEl = document.querySelector(".timer");
 var gameOver = document.querySelector(".gameOver");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
+//var scores = document.querySelector("#scores");
+
 var tick; //declared here for global scope
-//var scores =document.querySelector(".scores");//not sure if I need this yet or at all
 
 var storedScores = JSON.parse(localStorage.getItem("scoresArray")); //storedScores is the Key in the value pair in local storage
 var gameScores = []; //is the array where we construct the updated version of storedScores to pass back to local storage at game End
@@ -17,7 +18,7 @@ if (storedScores !== null) {
 }
 console.log("the Game Score is starting with " + gameScores);
 
-var secondsLeft = 10; //The number of seconds the timer starts with
+var secondsLeft = 100; //The number of seconds the timer starts with
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
 var Questions = [
@@ -54,7 +55,6 @@ function endGame() {
 	wrong.classList.add("hidden");
 	gameOver.classList.remove("hidden");
 	//timerEl.classList.add("hidden");
-
 	//The following takes the end time and user initials , combines them into a small array, and adds that array to the gameScores array.
 	var endTime = 0;
 	endTime = secondsLeft;
@@ -67,6 +67,7 @@ function endGame() {
 	gameScores.push(endArray); //<gameScores is supposed to be an array, why does JS want to treat it like a function?
 	//The following takes the small  gameScores array and stores in in local storage
 	localStorage.setItem("scoresArray", JSON.stringify(gameScores));
+	window.alert("high scores: " + gameScores);
 }
 
 function timer() {
