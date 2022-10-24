@@ -14,13 +14,11 @@ var storedScores = JSON.parse(localStorage.getItem("scoresArray")); //storedScor
 var gameScores = []; //is the array where we construct the updated version of storedScores to pass back to local storage at game End
 var endArray = []; // a place to combine the users end score and initials that they enter
 if (storedScores !== null) {
-	gameScores = storedScores; //if there is something already in storedScores, give it to gameScores to build upon.
+	//if there is something already in storedScores,
+	gameScores = storedScores; //give it to gameScores to build upon.
 }
-console.log("the Game Score is starting with " + gameScores);
 
-var secondsLeft = 10; //The number of seconds the timer starts with
-console.log(secondsLeft); /// trying to log the timer
-var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
+var secondsLeft = 40; //The number of seconds the timer starts with
 
 var Questions = [
 	{
@@ -34,27 +32,58 @@ var Questions = [
 		TA: "Object-Oriented",
 	},
 	{
-		Q: "How many roads must a man walk down, before you call him a man?",
-		Choices: ["Forty-two", "Sixteen", "Seventy-Seven", "Blowing in the Wind"],
-		TA: "Blowing in the Wind",
-	},
-	{
-		Q: "How will the world end?",
-		Choices: ["Fire", "Ice", "A fizzle", "A bang"],
-		TA: "Fire",
-	},
-	{
-		Q: "Why did the chicken cross the road?",
+		Q: "Which of the following is also known as a conditional expression?",
 		Choices: [
-			"Better View",
-			"Sour Grapes",
-			"To race the Hare",
-			"Greener Grass",
+			"Alternative to if-else",
+			"Switch statement",
+			"if-then-else",
+			"immediate if",
 		],
-		TA: "Sour Grapes",
+		TA: "immediate if",
+	},
+	{
+		Q: "In JavaScript, what is a block of statement?",
+		Choices: [
+			"Conditional Block",
+			"block that combines statements into a compound statement",
+			"both a conditional block and a single statement",
+			"A block that contains a single statement",
+		],
+		TA: "block that combines statements into a compound statement",
+	},
+	{
+		Q: "When an interpreter encounters an empty statement, what will it do?",
+		Choices: [
+			"Show a warning",
+			"Prompts to complete the statement",
+			"Throws an error",
+			"Ignores the statements",
+		],
+		TA: "Ignores the statements",
+
+		Q: "The 'function' and 'var' are known as:",
+		Choices: [
+			"Keywords",
+			"Key commands",
+			"Declaration Statements",
+			"Prototypes",
+		],
+		TA: "Keywords",
+		Q: "Which of the following variables takes precedence over the others if the names are the same??",
+		Choices: ["Preprocessor", "Triggering Event", "RMI", "Function/Method"],
+		TA: "Function/Method",
+
+		Q: "xxxxxxxxxxxx?",
+		Choices: ["yyyyyyyyyyy", "wwwwwwwwwwww", "hhhhhhhhhhhhh", "fffffffffffff"],
+		TA: "wwwwwwwwwwww",
 	},
 ];
 
+//var QuestionIndex = 0; //use this line to have the quiz start with the first question in the Questions array
+var QuestionIndex = Math.floor(Math.random() * Questions.length); //use this line instead to have the quiz start with a random question
+console.log(QuestionIndex);
+
+//The following function ends the game by hiding unwanted elements , stopping the timer, and storing the users initials and high score in local storage
 function endGame() {
 	buttonContainer.classList.add("hidden");
 	correct.classList.add("hidden");
@@ -77,6 +106,7 @@ function endGame() {
 	clearInterval(tick); //dont know why I should ahve to do this
 }
 
+//This is the game timer. Running out of time is one way the game ends.
 function timer() {
 	tick = setInterval(function () //setInterval is a built in time handler
 	{
@@ -92,10 +122,12 @@ function timer() {
 
 function makeQuestion() {
 	var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
-	var buttonDiv = document.createElement("div"); //makes a button div in the Dom
-	buttonContainer.appendChild(buttonDiv);
-	buttonDiv.innerHTML = Questions[QuestionIndex].Q;
+	var buttonDiv = document.createElement("div");
+	buttonContainer.appendChild(buttonDiv); //makes a button div in the Dom
+
+	buttonDiv.innerHTML = Questions[QuestionIndex].Q; //gives said button some question text
 	for (let i = 0; i < currentQuestion.Choices.length; i++) {
+		//makes sure that no more or fewer buttons are made than needed for the current question
 		var ghostButton = document.createElement("button"); //makes buttons for the multiple choice answers
 		ghostButton.innerHTML = Questions[QuestionIndex].Choices[i]; // grabs each correct multiple choice text from the questions array
 		ghostButton.dataset.ivalue = QuestionIndex; //gives each button a datum equal to the question number
@@ -129,7 +161,8 @@ buttonContainer.addEventListener("click", function (event) {
 		secondsLeft = secondsLeft - 10; //penalizes the user for a wrong answer by subtracting time left
 	}
 
-	QuestionIndex = QuestionIndex + 1;
+	//	QuestionIndex = QuestionIndex + 1; //uncomment this line to just let the questions appear in the order that they are in the Questions array
+	QuestionIndex = Math.floor(Math.random() * Questions.length); //Makes questions appear in random order, could have some questions multiple times, some questions might not appear
 
 	if (QuestionIndex < Questions.length) {
 		makeQuestion();
