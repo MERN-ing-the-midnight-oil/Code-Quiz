@@ -6,18 +6,18 @@ var timerEl = document.querySelector(".timer");
 var gameOver = document.querySelector(".gameOver");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
+var tick; //declared here for global scope
 //var scores =document.querySelector(".scores");//not sure if I need this yet or at all
 
-//STORED SCORES SCORES SCORES SCORES
-var storedScores = JSON.parse(localStorage.getItem("scoresArray")); //get the stored scores array from local storage
-var gameScores = ["asdf", "123"];
-var endArray = [];
+var storedScores = JSON.parse(localStorage.getItem("scoresArray")); //storedScores is the Key in the value pair in local storage
+var gameScores = []; //is the array where we construct the updated version of storedScores to pass back to local storage at game End
+var endArray = []; // a place to combine the users end score and initials that they enter
 if (storedScores !== null) {
-	gameScores = storedScores;
+	gameScores = storedScores; //if there is something already in storedScores, give it to gameScores to build upon.
 }
 console.log("the Game Score is starting with " + gameScores);
 
-var secondsLeft = 50; //The number of seconds the timer starts with
+var secondsLeft = 10; //The number of seconds the timer starts with
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
 var Questions = [
@@ -50,12 +50,15 @@ var Questions = [
 
 function endGame() {
 	buttonContainer.classList.add("hidden");
+	correct.classList.add("hidden");
+	wrong.classList.add("hidden");
 	gameOver.classList.remove("hidden");
-	timerEl.classList.add("hidden");
+	//timerEl.classList.add("hidden");
 
 	//The following takes the end time and user initials , combines them into a small array, and adds that array to the gameScores array.
 	var endTime = 0;
 	endTime = secondsLeft;
+	clearInterval(tick);
 	var endInitials = window.prompt(
 		"Please enter your initials for the score board!"
 	);
@@ -72,7 +75,7 @@ function timer() {
 		secondsLeft--;
 		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
 		if (secondsLeft < 1) {
-			//clearInterval(tick);
+			clearInterval(tick);
 			endGame(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ENDS THE GAME WHEN TIMER RUNS OUT
 		}
 	}, 1000);
@@ -124,7 +127,7 @@ welcomeButton.addEventListener("click", function () {
 			makeQuestion();
 		} else {
 			endGame(); //ENDS THE GAME WHEN ALL QUESTIONS HAVE BEEN ANSWERED
-			clearInterval(tick); //this was my unsuccessful attempt to keep the timer from continuing runnign down to zero and ending the game... agian.
+			//clearInterval(tick); //this was my unsuccessful attempt to keep the timer from continuing runnign down to zero and ending the game... agian.
 		}
 	});
 }); //<--end of the event listener/handler
