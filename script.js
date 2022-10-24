@@ -19,13 +19,19 @@ if (storedScores !== null) {
 console.log("the Game Score is starting with " + gameScores);
 
 var secondsLeft = 10; //The number of seconds the timer starts with
+console.log(secondsLeft); /// trying to log the timer
 var QuestionIndex = 0; //The question the user is on. Gets updated as questions are answered
 
 var Questions = [
 	{
-		Q: "What is Alaska's Capital City?",
-		Choices: ["Anchorage", "Fairbanks", "Olympia", "Juneau"],
-		TA: "Juneau",
+		Q: "Javascript is an ____ language?",
+		Choices: [
+			"Object-Reduced",
+			"Objectified",
+			"Object-Oriented",
+			"Object-Based",
+		],
+		TA: "Object-Oriented",
 	},
 	{
 		Q: "How many roads must a man walk down, before you call him a man?",
@@ -68,12 +74,14 @@ function endGame() {
 	//The following takes the small  gameScores array and stores in in local storage
 	localStorage.setItem("scoresArray", JSON.stringify(gameScores));
 	window.alert("high scores: " + gameScores);
+	clearInterval(tick); //dont know why I should ahve to do this
 }
 
 function timer() {
-	var tick = setInterval(function () //setInterval is a built in time handler
+	tick = setInterval(function () //setInterval is a built in time handler
 	{
 		secondsLeft--;
+		//console.log("the timer has "secondsLeft);
 		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
 		if (secondsLeft < 1) {
 			clearInterval(tick);
@@ -107,31 +115,29 @@ welcomeButton.addEventListener("click", function () {
 	timer(); // CALLS THE TIMER FUNCTION
 
 	makeQuestion(); // CALLS THE MAKE QUESTION FUNCTION, PUTTING QUESTION NUMBER ONE IN BUTTONS IN THE DOM AND WAITING FOR A CLICK
+});
+buttonContainer.addEventListener("click", function (event) {
+	var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
+	var ivalue = event.target.dataset.ivalue; //records the ivalue (question number, basically)
+	if (clickedOnText === Questions[ivalue].TA) {
+		//compares clicked on text to the correct answer
+		correct.classList.remove("hidden"); //reveal the message in "correct" class
+		wrong.classList.add("hidden"); //hide the "wrong" answer if it isn't already hidden
+	} else {
+		wrong.classList.remove("hidden"); //reveals the "wrong" class message text
+		correct.classList.add("hidden"); // hides the "correct!" message text if it isn't already hidden
+		secondsLeft = secondsLeft - 10; //penalizes the user for a wrong answer by subtracting time left
+	}
 
-	//THIS EVENT HANDLER WAITS FOR A CLICK ON A MULTIPLE CHOICE BUTTON CREATED IN THE PREVIOUS STEP AND CHECKS IF THE USER CHOICE IS CORRECT, AND DOES STUFF BASED ON THAT
-	buttonContainer.addEventListener("click", function (event) {
-		var clickedOnText = $(event.target).text(); //grabs the user's choice text and calls it clickedOn
-		var ivalue = event.target.dataset.ivalue; //records the ivalue (question number, basically)
-		if (clickedOnText === Questions[ivalue].TA) {
-			//compares clicked on text to the correct answer
-			correct.classList.remove("hidden"); //reveal the message in "correct" class
-			wrong.classList.add("hidden"); //hide the "wrong" answer if it isn't already hidden
-		} else {
-			wrong.classList.remove("hidden"); //reveals the "wrong" class message text
-			correct.classList.add("hidden"); // hides the "correct!" message text if it isn't already hidden
-			secondsLeft = secondsLeft - 10; //
-		}
+	QuestionIndex = QuestionIndex + 1;
 
-		QuestionIndex = QuestionIndex + 1;
-
-		if (QuestionIndex < Questions.length) {
-			makeQuestion();
-		} else {
-			endGame(); //ENDS THE GAME WHEN ALL QUESTIONS HAVE BEEN ANSWERED
-			//clearInterval(tick); //this was my unsuccessful attempt to keep the timer from continuing runnign down to zero and ending the game... agian.
-		}
-	});
-}); //<--end of the event listener/handler
+	if (QuestionIndex < Questions.length) {
+		makeQuestion();
+	} else {
+		endGame();
+	}
+});
+//<--end of the event listener/handler
 
 //Maybe usefull stuff
 //from class about removing a list item (removing the parent and itself)
