@@ -1,0 +1,8 @@
+Description
+A timed quiz with multiple-choice questions. Time is subtracted from the timer when questions are answered incorrectly. The quiz ends when the user runs out of time, or when they answer the total number of questions. Questions are given randomly, and may be repeated. If you would like to ensure that all questions get asked, and in order, enable the commented out code on line 82 and disable line 83 by commenting the code.
+
+Screenshot
+
+Link to Repository
+
+Link to Deployed App

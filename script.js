@@ -18,7 +18,7 @@ if (storedScores !== null) {
 	gameScores = storedScores; //give it to gameScores to build upon.
 }
 
-var secondsLeft = 40; //The number of seconds the timer starts with
+var secondsLeft = 60; //The number of seconds the timer starts with
 
 var Questions = [
 	{
@@ -69,13 +69,17 @@ var Questions = [
 			"Prototypes",
 		],
 		TA: "Keywords",
-		Q: "Which of the following variables takes precedence over the others if the names are the same??",
+		Q: "Which of the following variables takes precedence over the others if the names are the same?",
 		Choices: ["Preprocessor", "Triggering Event", "RMI", "Function/Method"],
 		TA: "Function/Method",
 
-		Q: "xxxxxxxxxxxx?",
-		Choices: ["yyyyyyyyyyy", "wwwwwwwwwwww", "hhhhhhhhhhhhh", "fffffffffffff"],
-		TA: "wwwwwwwwwwww",
+		Q: "Can you pass a anonymous function as an argument to another function?",
+		Choices: ["no", "yes", "sometimes"],
+		TA: "Yes",
+
+		Q: "Which built-in method returns the index within the calling String object of the first occurrence of the specified value?",
+		Choices: ["getIndex()", "location()", "indexOf()", "none of these"],
+		TA: "indexOf()",
 	},
 ];
 
@@ -89,20 +93,20 @@ function endGame() {
 	correct.classList.add("hidden");
 	wrong.classList.add("hidden");
 	gameOver.classList.remove("hidden");
-	//timerEl.classList.add("hidden");
+	timerEl.classList.add("hidden");
 	//The following takes the end time and user initials , combines them into a small array, and adds that array to the gameScores array.
 	var endTime = 0;
 	endTime = secondsLeft;
 	clearInterval(tick);
 	var endInitials = window.prompt(
-		"Please enter your initials for the score board!"
+		"Game Over. Please enter your initials for the score board!"
 	);
 	endArray.push(endInitials); //here I"m taking the users initials and end time and pairing them in a small array called gameScores
 	endArray.push(endTime);
 	gameScores.push(endArray); //<gameScores is supposed to be an array, why does JS want to treat it like a function?
 	//The following takes the small  gameScores array and stores in in local storage
 	localStorage.setItem("scoresArray", JSON.stringify(gameScores));
-	window.alert("high scores: " + gameScores);
+	window.alert("The Scoreboard:  " + gameScores);
 	clearInterval(tick); //dont know why I should ahve to do this
 }
 
@@ -112,7 +116,7 @@ function timer() {
 	{
 		secondsLeft--;
 		//console.log("the timer has "secondsLeft);
-		timerEl.textContent = secondsLeft + "seconds remaining in this quiz";
+		timerEl.textContent = "You have: " + secondsLeft + " seconds remaining.";
 		if (secondsLeft < 1) {
 			clearInterval(tick);
 			endGame(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ENDS THE GAME WHEN TIMER RUNS OUT
