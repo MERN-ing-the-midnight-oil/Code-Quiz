@@ -127,6 +127,9 @@ function timer() {
 function makeQuestion() {
 	var currentQuestion = Questions[QuestionIndex]; //currentQuestion is always an array consisting of a Q, a Choices, and a TA.  QuestionIndex tells it which set to get
 	var buttonDiv = document.createElement("div");
+	//assign an empty string into the button container to overwrite the text already there
+	//use the innerhtml not text content
+	buttonContainer.innerHTML = ""; //This gets rid of the previous question if one is there so only one question displays at once
 	buttonContainer.appendChild(buttonDiv); //makes a button div in the Dom
 
 	buttonDiv.innerHTML = Questions[QuestionIndex].Q; //gives said button some question text
